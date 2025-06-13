@@ -3,6 +3,8 @@ import {startServerAndCreateNextHandler} from "@as-integrations/next";
 import {resolvers} from "@/graphql/resolvers";
 import { typeDefs } from '@/graphql/shema'
 import {NextApiRequest, NextApiResponse, NextApiHandler} from "next";
+import dbConnect from "@/middleware/db-connetct";
+
 
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -27,5 +29,12 @@ const allowCors =
     return await fn(req, res);
   }
 
-export default allowCors(handler);
+const connectDB = (fn: NextApiHandler) =>
+  async (req: NextApiRequest, res: NextApiResponse) => {
+    await dbConnect();
+    return await fn(req, res);
+  };
+
+
+export default connectDB(allowCors(handler));
 

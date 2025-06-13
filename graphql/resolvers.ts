@@ -1,4 +1,5 @@
 import {db} from './data'
+import { findByZip, updateByZip } from "@/mongoose/weather/services";
 
 declare interface WeatherInterface {
   zip: string;
@@ -11,12 +12,15 @@ declare interface WeatherInterface {
 export const resolvers = {
   Query: {
     weather: async (_: never, param: WeatherInterface) => {
-      return [db.find((item) => item.zip === param.zip)];
+      const data = await findByZip(param.zip);
+      return [data];
     }
   },
   Mutation: {
-    weather: async (_: never, param: WeatherInterface) => {
-      return [db.find((item) => item.zip === param.zip)];
+    weather: async (_: never, param: { data: WeatherInterface }) => {
+      await updateByZip(param.data.zip, param.data);
+      const data = await findByZip(param.data.zip);
+      return [data];
     }
   }
 }
