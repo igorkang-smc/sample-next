@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`PageComponentWeather renders correctly 1`] = `
+<h1
+  onClick={[Function]}
+>
+  The weather is 
+  sunny
+  and the counter shows 
+  1
+</h1>
+`;
